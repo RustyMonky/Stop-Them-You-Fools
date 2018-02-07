@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/CleytonRX_-_Battle_RPG_Theme.wav-169aec0c0d5765bf359a9ca50868cdb0.sample"
+
+[deps]
+
+source_file="res://assets/sound/CleytonRX_-_Battle_RPG_Theme.wav"
+source_md5="16f46ac1d00dfe6daa1c8c05190b00c1"
+
+dest_files=[ "res://.import/CleytonRX_-_Battle_RPG_Theme.wav-169aec0c0d5765bf359a9ca50868cdb0.sample" ]
+dest_md5="a7f58d2530efc85c2d1ab8b53f60703f"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

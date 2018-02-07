@@ -25,7 +25,7 @@ var choices_array = [
 	[
 		{label = "remote detonation", command = "Detonate the hallway mines, you imbecile!", type = "trap", weak = "cleric"},
 		{label = "dragon", command = "Wait are you waiting for!? Wake the dragon!", type = "monster", weak = "knight"},
-		{label = "black hole", command = "Summon a black hole and pull him into oblivion!", type = "magic", weak = "mage"}
+		{label = "black hole", command = "Summon a black hole and pull them into oblivion!", type = "magic", weak = "mage"}
 	]
 ]
 var choices_index = 0
@@ -169,12 +169,12 @@ func move_minion(flipped):
 
 	if not flipped:
 		if animated_minion.position.x >= 800:
-			animated_minion.position.x -= 1
+			animated_minion.position.x -= 2
 		elif animated_minion.is_playing():
 			animated_minion.stop()
 	else:
 		if animated_minion.position.x <= 1120:
-			animated_minion.position.x += 1
+			animated_minion.position.x += 2
 		elif animated_minion.is_playing():
 			animated_minion.stop()
 

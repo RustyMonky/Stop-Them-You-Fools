@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/textbox.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/dodocanAnimation1.png" type="Texture" id=4]
 [ext_resource path="res://assets/dodocanAnimation2.png" type="Texture" id=5]
 [ext_resource path="res://assets/dodocanAnimation3.png" type="Texture" id=6]
+[ext_resource path="res://assets/sound/CleytonRX_-_Battle_RPG_Theme.wav" type="AudioStream" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -41,7 +42,6 @@ size_flags_vertical = 1
 
 [node name="TextBox" type="NinePatchRect" parent="GUI" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -62,6 +62,7 @@ _sections_unfolded = [ "Margin", "Patch Margin", "Rect" ]
 
 [node name="Choices" type="Control" parent="GUI/TextBox" index="0"]
 
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
@@ -175,5 +176,15 @@ position = Vector2( 1060, 560 )
 frames = SubResource( 1 )
 animation = "dodoWalk"
 frame = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer2D" parent="." index="2"]
+
+stream = ExtResource( 7 )
+volume_db = 0.0
+autoplay = true
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
 
 
