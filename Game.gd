@@ -63,17 +63,36 @@ func _process(delta):
 
 	elif current_game_state == CHOOSING:
 		if not choices.visible or not current_choice_label.visible:
-			choices.visible = true
-			current_choice_label.visible = true
+			toggle_choice_visibility()
 
 func _input(event):
-	if event.is_action_pressed("ui_accept") and current_game_state == PROMPTING:
-		if (text_index + 1) >= (text_array.size()):
-			prepare_choices()
-			current_game_state = CHOOSING
-		else:
-			text_index += 1
+	if event.is_action_pressed("ui_accept"):
+		if current_game_state == PROMPTING:
+			if (text_index + 1) >= (text_array.size()):
+				prepare_choices()
+				current_game_state = CHOOSING
+			else:
+				text_index += 1
+				set_text(text_index)
+		elif current_game_state == CHOOSING:
+			toggle_choice_visibility()
+			prepare_text(["As you wish, master."])
 			set_text(text_index)
+			current_game_state = PROCESSING
+
+	if event.is_action_pressed("ui_left") and current_game_state == CHOOSING:
+		if current_choice - 1 <= 0:
+			current_choice = 0
+		else:
+			current_choice -= 1
+		update_current_choice_text(current_choice)
+
+	elif event.is_action_pressed("ui_right") and current_game_state == CHOOSING:
+		if current_choice + 1 >= 2:
+			current_choice = 2
+		else:
+			current_choice += 1
+		update_current_choice_text(current_choice)
 
 # Chooses random hero type from preconstructed array
 func choose_rand_hero():
@@ -86,10 +105,11 @@ func prepare_choices():
 	for choice in choices.get_children():
 		var index = choices.get_children().find(choice)
 		choice.text = choices_array[choices_index][index].label
-	current_choice_label.text = String(current_choice)
+	update_current_choice_text(current_choice)
 
 # Prepares sequential texts to display
 func prepare_text(texts):
+	text_array = []
 	for t in texts:
 		text_array.append(t)
 
@@ -98,3 +118,12 @@ func prepare_text(texts):
 # Updates label text
 func set_text(index):
 	label.text = text_array[index]
+
+# Toggles visibility of choice options and text
+func toggle_choice_visibility():
+	choices.visible = !choices.visible
+	current_choice_label.visible = !current_choice_label.visible
+
+# Updates current choice tracking text
+func update_current_choice_text(choice):
+	current_choice_label.text = String(choice)
