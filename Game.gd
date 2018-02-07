@@ -5,7 +5,8 @@ enum GAME_STATE {
 	CHOOSING,
 	PROCESSING,
 	EXECUTING,
-	RESET
+	RESET,
+	DEFEAT
 }
 
 var choices
@@ -13,7 +14,7 @@ var choices_array = [
 	[
 		{label = "arrow barrage", command = "Unleash an arrow barrage and blot out the sun!", type = "trap", weak = "knight"},
 		{label = "zombie horde", command = "Send forth the zombie horde to eat their brains!", type = "monster", weak = "cleric"},
-		{label = "magic barrier", command = "Cast an inpenetrable magic barrier around the walls!", type = "magic", weak = "mage"}
+		{label = "cast fireball", command = "Cast a fireball to engulf them!", type = "magic", weak = "mage"}
 	],
 	[
 		{label = "crushing spike walls", command = "Crush him with the moving spiked walls, you fools!", type = "trap", weak = "cleric"},
@@ -55,12 +56,7 @@ func _ready():
 
 func _process(delta):
 	if current_game_state == PROMPTING and text_array.size() == 0:
-		choose_rand_hero()
-		prepare_text([
-			"Master, a " + hero.type + " is " + hero_locations[hero.locationIndex] + ".",
-			"How shall we deal with them?"
-		])
-		set_text(text_index)
+		reset_game()
 
 	elif current_game_state == CHOOSING:
 		if not choices.visible or not current_choice_label.visible:
@@ -88,14 +84,23 @@ func _input(event):
 				prepare_text(["Master, the " + hero.type + " has been destroyed."])
 				set_text(text_index)
 				current_game_state = RESET
-			else:
+			elif hero.locationIndex < hero_locations.size() - 1:
 				hero.locationIndex += 1
+				choices_index += 1
 				current_game_state = PROMPTING
 				prepare_text([
 					"Master, our plan failed! The " + hero.type + " is now " + hero_locations[hero.locationIndex] + ".",
 					"How shall we deal with them?"
 				])
 				set_text(text_index)
+			else:
+				current_game_state = DEFEAT
+				prepare_text(["You have been vanquished."])
+				set_text(text_index)
+
+		elif current_game_state == RESET:
+			current_game_state = PROMPTING
+			reset_game()
 
 	if event.is_action_pressed("ui_left") and current_game_state == CHOOSING:
 		if current_choice - 1 <= 0:
@@ -111,6 +116,7 @@ func _input(event):
 			current_choice += 1
 		update_current_choice_text(current_choice)
 
+# Determines if choice succeeds
 func is_successful():
 	var result = false
 	var chance = 0.75
@@ -128,7 +134,7 @@ func is_successful():
 
 # Chooses random hero type from preconstructed array
 func choose_rand_hero():
-	var index = randi() % hero_types.size()
+	var index = (randi() % hero_types.size() + 1) - 1
 	hero.type = hero_types[index]
 	hero.locationIndex = 0
 
@@ -146,6 +152,15 @@ func prepare_text(texts):
 		text_array.append(t)
 
 	text_index = 0
+
+# Resets game mode and creates new hero
+func reset_game():
+		choose_rand_hero()
+		prepare_text([
+			"Master, a " + hero.type + " is " + hero_locations[hero.locationIndex] + ".",
+			"How shall we deal with them?"
+		])
+		set_text(text_index)
 
 # Updates label text
 func set_text(index):
