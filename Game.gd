@@ -4,25 +4,26 @@ enum GAME_STATE {
 	PROMPTING,
 	CHOOSING,
 	PROCESSING,
-	EXECUTING
+	EXECUTING,
+	RESET
 }
 
 var choices
 var choices_array = [
 	[
-		{label = "arrow barrage", command = "Unleash an arrow barrage and blot out the sun!", type = "trap"},
-		{label = "zombie horde", command = "Send forth the zombie horde to eat their brains!", type = "monster"},
-		{label = "magic barrier", command = "Cast an inpenetrable magic barrier around the walls!", type = "magic"}
+		{label = "arrow barrage", command = "Unleash an arrow barrage and blot out the sun!", type = "trap", weak = "knight"},
+		{label = "zombie horde", command = "Send forth the zombie horde to eat their brains!", type = "monster", weak = "cleric"},
+		{label = "magic barrier", command = "Cast an inpenetrable magic barrier around the walls!", type = "magic", weak = "mage"}
 	],
 	[
-		{label = "crushing walls", command = "Crush him with the moving walls, you fools!", type = "trap"},
-		{label = "minotaur", command = "Send the damn minotaur to crush him!", type = "monster"},
-		{label = "flood the halls", command = "Summon so much water that they'll drown in their stupidity!", type = "magic"}
+		{label = "crushing spike walls", command = "Crush him with the moving spiked walls, you fools!", type = "trap", weak = "cleric"},
+		{label = "minotaur", command = "Send the damn minotaur to crush him!", type = "monster", weak = "knight"},
+		{label = "flood the halls", command = "Summon so much water that they'll drown in their stupidity!", type = "magic", weak = "mage"}
 	],
 	[
-		{label = "remote detonation", command = "Detonate the hallway mines, you imbecile!", type = "trap"},
-		{label = "dragon", command = "Wait are you waiting for!? Wake the dragon!", type = "monster"},
-		{label = "black hole", command = "Summon a black hole and pull him into oblivion!", type = "magic"}
+		{label = "remote detonation", command = "Detonate the hallway mines, you imbecile!", type = "trap", weak = "cleric"},
+		{label = "dragon", command = "Wait are you waiting for!? Wake the dragon!", type = "monster", weak = "knight"},
+		{label = "black hole", command = "Summon a black hole and pull him into oblivion!", type = "magic", weak = "mage"}
 	]
 ]
 var choices_index = 0
@@ -59,7 +60,7 @@ func _process(delta):
 			"Master, a " + hero.type + " is " + hero_locations[hero.locationIndex] + ".",
 			"How shall we deal with them?"
 		])
-		set_text(0)
+		set_text(text_index)
 
 	elif current_game_state == CHOOSING:
 		if not choices.visible or not current_choice_label.visible:
@@ -74,11 +75,27 @@ func _input(event):
 			else:
 				text_index += 1
 				set_text(text_index)
+
 		elif current_game_state == CHOOSING:
 			toggle_choice_visibility()
 			prepare_text(["As you wish, master."])
 			set_text(text_index)
 			current_game_state = PROCESSING
+
+		elif current_game_state == PROCESSING:
+			var successful = is_successful()
+			if successful:
+				prepare_text(["Master, the " + hero.type + " has been destroyed."])
+				set_text(text_index)
+				current_game_state = RESET
+			else:
+				hero.locationIndex += 1
+				current_game_state = PROMPTING
+				prepare_text([
+					"Master, our plan failed! The " + hero.type + " is now " + hero_locations[hero.locationIndex] + ".",
+					"How shall we deal with them?"
+				])
+				set_text(text_index)
 
 	if event.is_action_pressed("ui_left") and current_game_state == CHOOSING:
 		if current_choice - 1 <= 0:
@@ -93,6 +110,21 @@ func _input(event):
 		else:
 			current_choice += 1
 		update_current_choice_text(current_choice)
+
+func is_successful():
+	var result = false
+	var chance = 0.75
+	var choice_weak = choices_array[choices_index][current_choice].weak
+
+	if choice_weak == hero.type:
+		chance = 0.25
+
+	var rand_result = randi() % 100
+
+	if rand_result <= 100 * chance:
+		 result = true
+
+	return result
 
 # Chooses random hero type from preconstructed array
 func choose_rand_hero():
