@@ -29,7 +29,6 @@ var choices_array = [
 ]
 var choices_index = 0
 var current_choice = 0
-var current_choice_label
 var current_game_state
 var hero = {
 	locationIndex = 0,
@@ -43,7 +42,6 @@ var text_index = 0
 
 func _ready():
 	choices = $GUI/TextBox/Choices
-	current_choice_label = $"GUI/TextBox/Current Choice"
 	label = $GUI/TextBox/Label
 
 	current_game_state = PROMPTING
@@ -59,7 +57,7 @@ func _process(delta):
 		reset_game()
 
 	elif current_game_state == CHOOSING:
-		if not choices.visible or not current_choice_label.visible:
+		if not choices.visible:
 			toggle_choice_visibility()
 
 func _input(event):
@@ -166,10 +164,9 @@ func reset_game():
 func set_text(index):
 	label.text = text_array[index]
 
-# Toggles visibility of choice options and text
+# Toggles visibility of choice options
 func toggle_choice_visibility():
 	choices.visible = !choices.visible
-	current_choice_label.visible = !current_choice_label.visible
 
 # Updates current choice text color
 func update_current_choice_text(choice):
