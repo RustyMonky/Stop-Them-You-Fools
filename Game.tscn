@@ -1,8 +1,25 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/textbox.png" type="Texture" id=2]
 [ext_resource path="res://fonts/press_start.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/dodocanAnimation1.png" type="Texture" id=4]
+[ext_resource path="res://assets/dodocanAnimation2.png" type="Texture" id=5]
+[ext_resource path="res://assets/dodocanAnimation3.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "dodoWalk",
+"speed": 10.0
+} ]
 
 [node name="Node2D" type="Node2D" index="0"]
 
@@ -24,6 +41,7 @@ size_flags_vertical = 1
 
 [node name="TextBox" type="NinePatchRect" parent="GUI" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -150,5 +168,12 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Rect", "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
+
+position = Vector2( 1060, 560 )
+frames = SubResource( 1 )
+animation = "dodoWalk"
+frame = 2
 
 

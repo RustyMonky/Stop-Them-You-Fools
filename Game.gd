@@ -9,6 +9,7 @@ enum GAME_STATE {
 	DEFEAT
 }
 
+var animated_minion
 var choices
 var choices_array = [
 	[
@@ -42,6 +43,7 @@ var text_array = []
 var text_index = 0
 
 func _ready():
+	animated_minion = $AnimatedSprite
 	choices = $GUI/TextBox/Choices
 	label = $GUI/TextBox/Label
 
@@ -54,12 +56,22 @@ func _ready():
 	set_process_input(true)
 
 func _process(delta):
-	if current_game_state == PROMPTING and text_array.size() == 0:
-		reset_game()
+	if current_game_state == PROMPTING:
+		animated_minion.play()
+		move_minion(false)
+
+		if text_array.size() == 0:
+			reset_game()
 
 	elif current_game_state == CHOOSING:
 		if not choices.visible and not has_made_choice:
 			toggle_choice_visibility()
+		elif not choices.visible and has_made_choice:
+			move_minion(true)
+
+	elif current_game_state == PROCESSING:
+		move_minion(false)
+
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
@@ -147,6 +159,24 @@ func choose_rand_hero():
 	var index = (randi() % hero_types.size() + 1) - 1
 	hero.type = hero_types[index]
 	hero.locationIndex = 0
+
+# Moves minion animated sprite into view
+func move_minion(flipped):
+	animated_minion.flip_h = flipped
+
+	if not animated_minion.is_playing():
+		animated_minion.play()
+
+	if not flipped:
+		if animated_minion.position.x >= 800:
+			animated_minion.position.x -= 1
+		elif animated_minion.is_playing():
+			animated_minion.stop()
+	else:
+		if animated_minion.position.x <= 1120:
+			animated_minion.position.x += 1
+		elif animated_minion.is_playing():
+			animated_minion.stop()
 
 # Prepares choices labels
 func prepare_choices():
