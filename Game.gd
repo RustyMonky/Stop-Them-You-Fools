@@ -9,6 +9,7 @@ enum GAME_STATE {
 	DEFEAT
 }
 
+var animated_minion
 var choices
 var choices_array = [
 	[
@@ -29,8 +30,8 @@ var choices_array = [
 ]
 var choices_index = 0
 var current_choice = 0
-var current_choice_label
 var current_game_state
+var has_made_choice = false
 var hero = {
 	locationIndex = 0,
 	type = ""
@@ -42,9 +43,9 @@ var text_array = []
 var text_index = 0
 
 func _ready():
-	choices = $GUI/Choices
-	current_choice_label = $"GUI/Current Choice"
-	label = $GUI/Label
+	animated_minion = $AnimatedSprite
+	choices = $GUI/TextBox/Choices
+	label = $GUI/TextBox/Label
 
 	current_game_state = PROMPTING
 
@@ -55,12 +56,22 @@ func _ready():
 	set_process_input(true)
 
 func _process(delta):
-	if current_game_state == PROMPTING and text_array.size() == 0:
-		reset_game()
+	if current_game_state == PROMPTING:
+		animated_minion.play()
+		move_minion(false)
+
+		if text_array.size() == 0:
+			reset_game()
 
 	elif current_game_state == CHOOSING:
-		if not choices.visible or not current_choice_label.visible:
+		if not choices.visible and not has_made_choice:
 			toggle_choice_visibility()
+		elif not choices.visible and has_made_choice:
+			move_minion(true)
+
+	elif current_game_state == PROCESSING:
+		move_minion(false)
+
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
@@ -73,10 +84,21 @@ func _input(event):
 				set_text(text_index)
 
 		elif current_game_state == CHOOSING:
-			toggle_choice_visibility()
-			prepare_text(["As you wish, master."])
-			set_text(text_index)
-			current_game_state = PROCESSING
+			if not has_made_choice:
+				has_made_choice = true
+				toggle_choice_visibility()
+				prepare_text([
+					choices_array[choices_index][current_choice].command,
+					"As you wish, master."
+				])
+				set_text(text_index)
+			else:
+				if (text_index + 1) >= (text_array.size()):
+					current_game_state = PROCESSING
+					has_made_choice = false
+				else:
+					text_index += 1
+					set_text(text_index)
 
 		elif current_game_state == PROCESSING:
 			var successful = is_successful()
@@ -138,6 +160,24 @@ func choose_rand_hero():
 	hero.type = hero_types[index]
 	hero.locationIndex = 0
 
+# Moves minion animated sprite into view
+func move_minion(flipped):
+	animated_minion.flip_h = flipped
+
+	if not animated_minion.is_playing():
+		animated_minion.play()
+
+	if not flipped:
+		if animated_minion.position.x >= 800:
+			animated_minion.position.x -= 1
+		elif animated_minion.is_playing():
+			animated_minion.stop()
+	else:
+		if animated_minion.position.x <= 1120:
+			animated_minion.position.x += 1
+		elif animated_minion.is_playing():
+			animated_minion.stop()
+
 # Prepares choices labels
 func prepare_choices():
 	for choice in choices.get_children():
@@ -155,22 +195,26 @@ func prepare_text(texts):
 
 # Resets game mode and creates new hero
 func reset_game():
-		choose_rand_hero()
-		prepare_text([
-			"Master, a " + hero.type + " is " + hero_locations[hero.locationIndex] + ".",
-			"How shall we deal with them?"
-		])
-		set_text(text_index)
+	has_made_choice = false
+	choose_rand_hero()
+	prepare_text([
+		"Master, a " + hero.type + " is " + hero_locations[hero.locationIndex] + ".",
+		"How shall we deal with them?"
+	])
+	set_text(text_index)
 
 # Updates label text
 func set_text(index):
 	label.text = text_array[index]
 
-# Toggles visibility of choice options and text
+# Toggles visibility of choice options
 func toggle_choice_visibility():
 	choices.visible = !choices.visible
-	current_choice_label.visible = !current_choice_label.visible
 
-# Updates current choice tracking text
+# Updates current choice text color
 func update_current_choice_text(choice):
-	current_choice_label.text = String(choice)
+	for label in choices.get_children():
+		if label == choices.get_children()[choice]:
+			label.set("custom_colors/font_color", Color("ffff00"))
+		else:
+			label.set("custom_colors/font_color", Color("#ffffff"))
