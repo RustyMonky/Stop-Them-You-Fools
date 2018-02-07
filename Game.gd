@@ -30,6 +30,7 @@ var choices_array = [
 var choices_index = 0
 var current_choice = 0
 var current_game_state
+var has_made_choice = false
 var hero = {
 	locationIndex = 0,
 	type = ""
@@ -57,7 +58,7 @@ func _process(delta):
 		reset_game()
 
 	elif current_game_state == CHOOSING:
-		if not choices.visible:
+		if not choices.visible and not has_made_choice:
 			toggle_choice_visibility()
 
 func _input(event):
@@ -71,10 +72,21 @@ func _input(event):
 				set_text(text_index)
 
 		elif current_game_state == CHOOSING:
-			toggle_choice_visibility()
-			prepare_text(["As you wish, master."])
-			set_text(text_index)
-			current_game_state = PROCESSING
+			if not has_made_choice:
+				has_made_choice = true
+				toggle_choice_visibility()
+				prepare_text([
+					choices_array[choices_index][current_choice].command,
+					"As you wish, master."
+				])
+				set_text(text_index)
+			else:
+				if (text_index + 1) >= (text_array.size()):
+					current_game_state = PROCESSING
+					has_made_choice = false
+				else:
+					text_index += 1
+					set_text(text_index)
 
 		elif current_game_state == PROCESSING:
 			var successful = is_successful()
@@ -153,12 +165,13 @@ func prepare_text(texts):
 
 # Resets game mode and creates new hero
 func reset_game():
-		choose_rand_hero()
-		prepare_text([
-			"Master, a " + hero.type + " is " + hero_locations[hero.locationIndex] + ".",
-			"How shall we deal with them?"
-		])
-		set_text(text_index)
+	has_made_choice = false
+	choose_rand_hero()
+	prepare_text([
+		"Master, a " + hero.type + " is " + hero_locations[hero.locationIndex] + ".",
+		"How shall we deal with them?"
+	])
+	set_text(text_index)
 
 # Updates label text
 func set_text(index):
