@@ -42,9 +42,9 @@ var text_array = []
 var text_index = 0
 
 func _ready():
-	choices = $GUI/Choices
-	current_choice_label = $"GUI/Current Choice"
-	label = $GUI/Label
+	choices = $GUI/TextBox/Choices
+	current_choice_label = $"GUI/TextBox/Current Choice"
+	label = $GUI/TextBox/Label
 
 	current_game_state = PROMPTING
 
@@ -171,6 +171,10 @@ func toggle_choice_visibility():
 	choices.visible = !choices.visible
 	current_choice_label.visible = !current_choice_label.visible
 
-# Updates current choice tracking text
+# Updates current choice text color
 func update_current_choice_text(choice):
-	current_choice_label.text = String(choice)
+	for label in choices.get_children():
+		if label == choices.get_children()[choice]:
+			label.set("custom_colors/font_color", Color("ffff00"))
+		else:
+			label.set("custom_colors/font_color", Color("#ffffff"))
