@@ -10,7 +10,7 @@ config_version=3
 
 [application]
 
-config/name="Weekly30"
+config/name="Stop Them, You Fools!"
 run/main_scene="res://Title.tscn"
 config/icon="res://icon.png"
 
