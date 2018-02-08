@@ -24,7 +24,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 

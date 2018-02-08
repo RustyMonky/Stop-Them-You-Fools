@@ -18,7 +18,7 @@ var choices_array = [
 		{label = "Launch Fireball", command = "Cast a fireball to engulf them!", type = "magic", weak = "mage"}
 	],
 	[
-		{label = "Crushing Spike Walls", command = "Crush him with the moving spiked walls, you fools!", type = "trap", weak = "cleric"},
+		{label = "Crushing Spike Walls", command = "Crush him with the moving spiked walls, you fool!", type = "trap", weak = "cleric"},
 		{label = "Minotaur", command = "Send the damn minotaur to crush them!", type = "monster", weak = "knight"},
 		{label = "Flood the Halls", command = "Summon so much water that they'll drown in their stupidity!", type = "magic", weak = "mage"}
 	],
@@ -138,12 +138,15 @@ func _input(event):
 				set_text(text_index)
 			else:
 				current_game_state = DEFEAT
-				prepare_text([{speaker = "boss", text = "You have been vanquished."}])
+				prepare_text([{speaker = "minion", text = "You have been vanquished."}])
 				set_text(text_index)
 
 		elif current_game_state == RESET:
 			current_game_state = PROMPTING
 			reset_game()
+
+		elif current_game_state == DEFEAT:
+			get_tree().quit()
 
 	if event.is_action_pressed("ui_left") and current_game_state == CHOOSING:
 		if current_choice - 1 <= 0:
@@ -216,6 +219,7 @@ func prepare_text(texts):
 
 # Resets game mode and creates new hero
 func reset_game():
+	choices_index = 0
 	has_made_choice = false
 	choose_rand_hero()
 	prepare_text([
