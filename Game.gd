@@ -66,7 +66,7 @@ func _process(delta):
 	elif current_game_state == CHOOSING:
 		if not choices.visible and not has_made_choice:
 			toggle_choice_visibility()
-		elif not choices.visible and has_made_choice:
+		elif not choices.visible and has_made_choice and text_index != 0:
 			move_minion(true)
 
 	elif current_game_state == PROCESSING:
@@ -75,7 +75,7 @@ func _process(delta):
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
-		if current_game_state == PROMPTING:
+		if current_game_state == PROMPTING and not animated_minion.is_playing():
 			if (text_index + 1) >= (text_array.size()):
 				prepare_choices()
 				current_game_state = CHOOSING
@@ -83,7 +83,7 @@ func _input(event):
 				text_index += 1
 				set_text(text_index)
 
-		elif current_game_state == CHOOSING:
+		elif current_game_state == CHOOSING and not animated_minion.is_playing():
 			if not has_made_choice:
 				has_made_choice = true
 				toggle_choice_visibility()
@@ -100,7 +100,7 @@ func _input(event):
 					text_index += 1
 					set_text(text_index)
 
-		elif current_game_state == PROCESSING:
+		elif current_game_state == PROCESSING and not animated_minion.is_playing():
 			var successful = is_successful()
 			if successful:
 				prepare_text(["Master, the " + hero.type + " has been destroyed."])
