@@ -39,6 +39,9 @@ var hero = {
 var hero_locations = ["at the castle gates", "in the main hall", "just outside the throne room"]
 var hero_types = ["cleric", "mage", "knight"]
 var label
+var speaker_box
+var speaker_box_boss
+var speaker_box_minion
 var text_array = []
 var text_index = 0
 
@@ -46,6 +49,9 @@ func _ready():
 	animated_minion = $AnimatedSprite
 	choices = $GUI/TextBox/Choices
 	label = $GUI/TextBox/Label
+	speaker_box = $GUI/TextBox/SpeakerBox
+	speaker_box_boss = ResourceLoader.load("res://assets/bossBox.png")
+	speaker_box_minion = ResourceLoader.load("res://assets/dodoBox.png")
 
 	current_game_state = PROMPTING
 
@@ -88,8 +94,14 @@ func _input(event):
 				has_made_choice = true
 				toggle_choice_visibility()
 				prepare_text([
-					choices_array[choices_index][current_choice].command,
-					"As you wish, master."
+					{
+						speaker = "boss",
+						text = choices_array[choices_index][current_choice].command
+					},
+					{
+						speaker = "minion",
+						text = "As you wish, master."
+					}
 				])
 				set_text(text_index)
 			else:
@@ -103,7 +115,10 @@ func _input(event):
 		elif current_game_state == PROCESSING and not animated_minion.is_playing():
 			var successful = is_successful()
 			if successful:
-				prepare_text(["Master, the " + hero.type + " has been destroyed."])
+				prepare_text([{
+					speaker = "minion",
+					text = "Master, the " + hero.type + " has been destroyed."
+				}])
 				set_text(text_index)
 				current_game_state = RESET
 			elif hero.locationIndex < hero_locations.size() - 1:
@@ -111,13 +126,19 @@ func _input(event):
 				choices_index += 1
 				current_game_state = PROMPTING
 				prepare_text([
-					"Master, our plan failed! The " + hero.type + " is now " + hero_locations[hero.locationIndex] + ".",
-					"How shall we deal with them?"
+					{
+						speaker = "minion",
+						text = "Master, our plan failed! The " + hero.type + " is now " + hero_locations[hero.locationIndex] + "."
+					},
+					{
+						speaker = "minion",
+						text = "How shall we deal with them?"
+					}
 				])
 				set_text(text_index)
 			else:
 				current_game_state = DEFEAT
-				prepare_text(["You have been vanquished."])
+				prepare_text([{speaker = "boss", text = "You have been vanquished."}])
 				set_text(text_index)
 
 		elif current_game_state == RESET:
@@ -198,14 +219,24 @@ func reset_game():
 	has_made_choice = false
 	choose_rand_hero()
 	prepare_text([
-		"Master, a " + hero.type + " is " + hero_locations[hero.locationIndex] + ".",
-		"How shall we deal with them?"
+		{
+			text = "Master, a " + hero.type + " is " + hero_locations[hero.locationIndex] + ".",
+			speaker = "minion"
+		},
+		{
+			text = "How shall we deal with them?",
+			speaker = "minion"
+		}
 	])
 	set_text(text_index)
 
 # Updates label text
 func set_text(index):
-	label.text = text_array[index]
+	label.text = text_array[index].text
+	if text_array[index].speaker == "boss":
+		speaker_box.set_texture(speaker_box_boss)
+	elif text_array[index].speaker == "minion":
+		speaker_box.set_texture(speaker_box_minion)
 
 # Toggles visibility of choice options
 func toggle_choice_visibility():
