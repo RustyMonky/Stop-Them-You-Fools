@@ -22,7 +22,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[node name="Node2D" type="Node2D" index="0"]
+[node name="Node2D" type="Node2D"]
 
 script = ExtResource( 1 )
 
@@ -62,7 +62,6 @@ _sections_unfolded = [ "Margin", "Patch Margin", "Rect" ]
 
 [node name="Choices" type="Control" parent="GUI/TextBox" index="0"]
 
-editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0

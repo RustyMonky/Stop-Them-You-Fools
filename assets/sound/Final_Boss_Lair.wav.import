@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Final_Boss_Lair.wav-47e3ff6c9bc4bb94d0cd97bf06caa99e.sample"
+
+[deps]
+
+source_file="res://assets/sound/Final_Boss_Lair.wav"
+source_md5="9b80eefb1cefc256baaef5ed8b3b0cd1"
+
+dest_files=[ "res://.import/Final_Boss_Lair.wav-47e3ff6c9bc4bb94d0cd97bf06caa99e.sample" ]
+dest_md5="868ca4dd6b5e758269e981de01bcddf9"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
