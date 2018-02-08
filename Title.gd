@@ -2,9 +2,11 @@ extends Node2D
 
 enum STATE {
 	MENU,
-	CREDITS
+	CREDITS,
+	ABOUT
 }
 
+var about
 var current_state = MENU
 var current_option = 0
 var credits
@@ -12,6 +14,7 @@ var game_loaded = false
 var options
 
 func _ready():
+	about = $UI/About
 	options = $UI/Options
 	credits = $UI/Credits
 
@@ -26,7 +29,7 @@ func _input(event):
 		set_current_option_color(current_option)
 
 	elif event.is_action_pressed("ui_down") and current_state == MENU:
-		if current_option + 1 <= 2:
+		if current_option + 1 <= 3:
 			current_option += 1
 		set_current_option_color(current_option)
 
@@ -37,6 +40,8 @@ func _input(event):
 			toggle_credits()
 		elif current_option == 2 and current_state == MENU:
 			get_tree().quit()
+		elif current_option == 3:
+			toggle_about()
 
 # Highlights currently selected menu option
 func set_current_option_color(option):
@@ -45,6 +50,16 @@ func set_current_option_color(option):
 			ops.set("custom_colors/font_color", Color("ffff00"))
 		else:
 			ops.set("custom_colors/font_color", Color("ffffff"))
+
+# Toggles visibility of about text
+func toggle_about():
+	options.visible = !options.visible
+	about.visible = !about.visible
+
+	if about.visible:
+		current_state = ABOUT
+	else:
+		current_state = MENU
 
 # Toggles visibility of credits section
 func toggle_credits():

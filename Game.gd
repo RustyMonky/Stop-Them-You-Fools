@@ -13,19 +13,19 @@ var animated_minion
 var choices
 var choices_array = [
 	[
-		{label = "arrow barrage", command = "Unleash an arrow barrage and blot out the sun!", type = "trap", weak = "knight"},
-		{label = "zombie horde", command = "Send forth the zombie horde to eat their brains!", type = "monster", weak = "cleric"},
-		{label = "cast fireball", command = "Cast a fireball to engulf them!", type = "magic", weak = "mage"}
+		{label = "Arrow Barrage", command = "Unleash an arrow barrage and blot out the sun!", type = "trap", weak = "knight"},
+		{label = "Zombie Horde", command = "Send forth the zombie horde to eat their brains!", type = "monster", weak = "cleric"},
+		{label = "Launch Fireball", command = "Cast a fireball to engulf them!", type = "magic", weak = "mage"}
 	],
 	[
-		{label = "crushing spike walls", command = "Crush him with the moving spiked walls, you fools!", type = "trap", weak = "cleric"},
-		{label = "minotaur", command = "Send the damn minotaur to crush him!", type = "monster", weak = "knight"},
-		{label = "flood the halls", command = "Summon so much water that they'll drown in their stupidity!", type = "magic", weak = "mage"}
+		{label = "Crushing Spike Walls", command = "Crush him with the moving spiked walls, you fools!", type = "trap", weak = "cleric"},
+		{label = "Minotaur", command = "Send the damn minotaur to crush them!", type = "monster", weak = "knight"},
+		{label = "Flood the Halls", command = "Summon so much water that they'll drown in their stupidity!", type = "magic", weak = "mage"}
 	],
 	[
-		{label = "remote detonation", command = "Detonate the hallway mines, you imbecile!", type = "trap", weak = "cleric"},
-		{label = "dragon", command = "Wait are you waiting for!? Wake the dragon!", type = "monster", weak = "knight"},
-		{label = "black hole", command = "Summon a black hole and pull them into oblivion!", type = "magic", weak = "mage"}
+		{label = "Remote Detonation", command = "Detonate the hallway mines, you imbecile!", type = "trap", weak = "cleric"},
+		{label = "Dragon", command = "Wait are you waiting for!? Wake the dragon!", type = "monster", weak = "knight"},
+		{label = "Black Hole", command = "Summon a black hole and pull them into oblivion!", type = "magic", weak = "mage"}
 	]
 ]
 var choices_index = 0
