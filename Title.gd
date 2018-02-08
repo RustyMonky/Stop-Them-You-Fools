@@ -8,6 +8,7 @@ enum STATE {
 var current_state = MENU
 var current_option = 0
 var credits
+var game_loaded = false
 var options
 
 func _ready():
@@ -30,7 +31,9 @@ func _input(event):
 		set_current_option_color(current_option)
 
 	elif event.is_action_pressed("ui_accept"):
-		if current_option == 1:
+		if current_option == 0 and current_state == MENU and not game_loaded:
+			scene_manager.goto_scene("res://Game.tscn")
+		elif current_option == 1:
 			toggle_credits()
 		elif current_option == 2 and current_state == MENU:
 			get_tree().quit()

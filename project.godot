@@ -14,6 +14,10 @@ config/name="Weekly30"
 run/main_scene="res://Title.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+scene_manager="*res://SceneManager.gd"
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
