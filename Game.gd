@@ -10,6 +10,7 @@ enum GAME_STATE {
 }
 
 var animated_minion
+var audio_player
 var choices
 var choices_array = [
 	[
@@ -47,6 +48,7 @@ var text_index = 0
 
 func _ready():
 	animated_minion = $AnimatedSprite
+	audio_player = $AudioStreamPlayer
 	choices = $GUI/TextBox/Choices
 	label = $GUI/TextBox/Label
 	speaker_box = $GUI/TextBox/SpeakerBox
@@ -62,6 +64,7 @@ func _ready():
 	set_process_input(true)
 
 func _process(delta):
+
 	if current_game_state == PROMPTING:
 		animated_minion.play()
 		move_minion(false)
@@ -253,3 +256,7 @@ func update_current_choice_text(choice):
 			label.set("custom_colors/font_color", Color("ffff00"))
 		else:
 			label.set("custom_colors/font_color", Color("#ffffff"))
+
+
+func _on_AudioStreamPlayer_finished():
+	audio_player.play()

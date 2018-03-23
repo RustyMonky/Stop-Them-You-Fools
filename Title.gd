@@ -7,6 +7,7 @@ enum STATE {
 }
 
 var about
+var audio_player
 var current_state = MENU
 var current_option = 0
 var credits
@@ -15,6 +16,7 @@ var options
 
 func _ready():
 	about = $UI/About
+	audio_player = $AudioStreamPlayer2D
 	options = $UI/Options
 	credits = $UI/Credits
 
@@ -23,6 +25,7 @@ func _ready():
 	set_process_input(true)
 
 func _input(event):
+
 	if event.is_action_pressed("ui_up") and current_state == MENU:
 		if current_option - 1 >= 0:
 			current_option -= 1
@@ -70,3 +73,6 @@ func toggle_credits():
 		current_state = CREDITS
 	else:
 		current_state = MENU
+
+func _on_AudioStreamPlayer2D_finished():
+	audio_player.play()
