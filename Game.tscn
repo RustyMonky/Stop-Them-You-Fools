@@ -203,10 +203,11 @@ stretch_mode = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
 
-position = Vector2( 1080, 530 )
+position = Vector2( 1080, 500 )
 frames = SubResource( 1 )
 animation = "dodoWalk"
 frame = 2
+_sections_unfolded = [ "Transform" ]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer2D" parent="." index="2"]
 
@@ -220,8 +221,9 @@ area_mask = 1
 
 [node name="Player" type="Sprite" parent="." index="3"]
 
-position = Vector2( 60, 530 )
+position = Vector2( 60, 500 )
 texture = ExtResource( 9 )
+_sections_unfolded = [ "Transform" ]
 
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]
 

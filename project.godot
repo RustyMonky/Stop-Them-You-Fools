@@ -20,6 +20,7 @@ scene_manager="*res://SceneManager.gd"
 
 [display]
 
+window/size/height=576
 window/size/resizable=false
 
 [rendering]
