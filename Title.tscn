@@ -6,13 +6,12 @@
 [ext_resource path="res://assets/splash.png" type="Texture" id=4]
 [ext_resource path="res://assets/sound/Final_Boss_Lair.wav" type="AudioStream" id=5]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
 [node name="UI" type="Control" parent="." index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -187,7 +186,8 @@ size_flags_vertical = 4
 custom_fonts/normal_font = ExtResource( 3 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 bbcode_enabled = true
-bbcode_text = "[u]Music[/u]
+bbcode_text = "
+[u]Music[/u]
 
 \"Final Boss Lair\" by Hitctrl:
 https://opengameart.org/content/finalbosslair
@@ -198,7 +198,8 @@ visible_characters = -1
 percent_visible = 1.0
 meta_underlined = true
 tab_size = 4
-text = "Music
+text = "
+Music
 
 \"Final Boss Lair\" by Hitctrl:
 https://opengameart.org/content/finalbosslair
@@ -238,7 +239,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 150.0
-margin_right = 400.0
+margin_right = 500.0
 margin_bottom = 350.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -257,7 +258,7 @@ anchor_bottom = 0.0
 margin_left = 60.0
 margin_top = 10.0
 margin_right = 460.0
-margin_bottom = 610.0
+margin_bottom = 210.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = true
 mouse_filter = 0
@@ -271,15 +272,16 @@ text = "	A hero has arrived at your castle in hopes of vanquishing you.
 	
 	Choose wisely!
 
-	Use the arrow keys to cycle through options.
+	Use the ARROW KEYS to cycle through options.
 
 	Press ENTER to continue through text or confirm a choice."
+valign = 1
 autowrap = true
 clip_text = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "BBCode", "Grow Direction", "Margin", "Rect", "Size Flags", "Visibility", "custom_colors", "custom_constants", "custom_fonts" ]
+_sections_unfolded = [ "BBCode", "Grow Direction", "Rect", "Size Flags", "Visibility", "custom_colors", "custom_constants", "custom_fonts" ]
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." index="1"]
 
