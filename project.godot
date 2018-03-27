@@ -18,6 +18,10 @@ config/icon="res://icon.png"
 
 scene_manager="*res://SceneManager.gd"
 
+[display]
+
+window/size/resizable=false
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
