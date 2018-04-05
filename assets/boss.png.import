@@ -7,10 +7,10 @@ path="res://.import/boss.png-266cbc3c76e12bc7d5a53d685b9ff650.stex"
 [deps]
 
 source_file="res://assets/boss.png"
-source_md5="906dd2698a7b6f235cf49197a45d5970"
+source_md5="6e0d1c5fed552a11d619dd671a0244c3"
 
 dest_files=[ "res://.import/boss.png-266cbc3c76e12bc7d5a53d685b9ff650.stex" ]
-dest_md5="307c505d23eaa38e329fbfa8921777e8"
+dest_md5="3fef99e14f85549e6414354e838c9f61"
 
 [params]
 

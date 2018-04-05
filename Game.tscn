@@ -37,6 +37,7 @@ anchor_bottom = 0.0
 margin_right = 40.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
@@ -51,6 +52,7 @@ anchor_bottom = 0.0
 margin_right = 1024.0
 margin_bottom = 200.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
@@ -74,6 +76,7 @@ margin_top = 100.0
 margin_right = 1010.0
 margin_bottom = 250.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
@@ -88,8 +91,9 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 200.0
 margin_right = 400.0
-margin_bottom = 100.0
+margin_bottom = 50.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
@@ -97,6 +101,7 @@ size_flags_vertical = 4
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
+valign = 1
 clip_text = true
 percent_visible = 1.0
 lines_skipped = 0
@@ -111,8 +116,9 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 400.0
 margin_right = 600.0
-margin_bottom = 110.0
+margin_bottom = 50.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
@@ -120,6 +126,7 @@ size_flags_vertical = 4
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
+valign = 1
 clip_text = true
 percent_visible = 1.0
 lines_skipped = 0
@@ -134,8 +141,9 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 600.0
 margin_right = 800.0
-margin_bottom = 110.0
+margin_bottom = 50.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
@@ -143,6 +151,7 @@ size_flags_vertical = 4
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
+valign = 1
 clip_text = true
 percent_visible = 1.0
 lines_skipped = 0
@@ -160,12 +169,14 @@ margin_top = 30.0
 margin_right = 712.0
 margin_bottom = 130.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -182,6 +193,7 @@ margin_top = 40.0
 margin_right = 124.0
 margin_bottom = 104.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
@@ -191,10 +203,11 @@ stretch_mode = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
 
-position = Vector2( 1080, 530 )
+position = Vector2( 1080, 500 )
 frames = SubResource( 1 )
 animation = "dodoWalk"
 frame = 2
+_sections_unfolded = [ "Transform" ]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer2D" parent="." index="2"]
 
@@ -208,7 +221,10 @@ area_mask = 1
 
 [node name="Player" type="Sprite" parent="." index="3"]
 
-position = Vector2( 60, 530 )
+position = Vector2( 60, 500 )
 texture = ExtResource( 9 )
+_sections_unfolded = [ "Transform" ]
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]
 
 
